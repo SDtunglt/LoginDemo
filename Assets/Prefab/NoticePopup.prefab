@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 4676173576638255930}
   - component: {fileID: 3946449849915016809}
   m_Layer: 5
-  m_Name: Prev
+  m_Name: Next
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 860848567091335295}
   - component: {fileID: 2937724718235810974}
   m_Layer: 5
-  m_Name: Next
+  m_Name: Prev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -770,9 +770,10 @@ MonoBehaviour:
     type: 3}
   PageContentContainer: {fileID: 5380294839235822827}
   PageBtnContainer: {fileID: 4964604371610964281}
+  contentMove: 0
   prefabPageBtn: {fileID: 6443849979334137738}
-  prevBtn: {fileID: 3946449849915016809}
-  nextBtn: {fileID: 2937724718235810974}
+  prevBtn: {fileID: 2937724718235810974}
+  nextBtn: {fileID: 3946449849915016809}
   AutoNotifyToggle: {fileID: 6088268295364811696}
 --- !u!225 &37557586448325052
 CanvasGroup:

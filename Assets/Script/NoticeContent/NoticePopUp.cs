@@ -10,8 +10,8 @@ public class NoticePopUp : MonoBehaviour
     public GameObject ContentPrefab;
     public Transform PageContentContainer;
     public Transform PageBtnContainer;
-    public float contentMove;
-    private float move = 50f;
+    private float move;
+    public float ContentMoveSp = 50f;
 
     private List<NoticeContent> contentList;
     private List<NoticePageBtn> pageBtns;
@@ -119,30 +119,30 @@ public class NoticePopUp : MonoBehaviour
             int direction = 1;
             if(nextIndex > index)
             {
-                contentMove = -move;
+                ContentMoveSp = -move;
                 direction = -1;
             }
 
             if(nextIndex < index)
             {
-                contentMove = move;
+                ContentMoveSp = move;
                 direction = 1;
             }
 
             if(nextIndex > contentList.Count - 1)
             {
-                contentMove = move;
+                ContentMoveSp = move;
                 nextIndex = 0;
             }
 
             else if (nextIndex < 0)
             {
-                contentMove = -move;
+                move = -move;
                 nextIndex = contentList.Count - 1;
             }
 
-            contentList[index].Slide(true,contentMove,direction);
-            contentList[nextIndex].Slide(false,contentMove ,direction);
+            contentList[index].Slide(true,move,direction);
+            contentList[nextIndex].Slide(false,move ,direction);
             pageBtns[index].Check(false);
             pageBtns[nextIndex].Check(true);
             index = nextIndex;
@@ -173,12 +173,14 @@ public class NoticePopUp : MonoBehaviour
 
     public void Prev()
     {
-        Scroll(index + 1);
+        Scroll(index - 1);
+        Debug.Log("Slide prev");
     }
     
     public void Next()
     {
-        Scroll(index - 1);
+        Scroll(index + 1);
+        Debug.Log("Slide next");
     }
 
     public void ToggleAutoNotify(bool isOn)
