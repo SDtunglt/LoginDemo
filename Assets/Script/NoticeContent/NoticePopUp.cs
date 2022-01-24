@@ -123,6 +123,12 @@ public class NoticePopUp : MonoBehaviour
                 direction = -1;
             }
 
+            if(nextIndex < index)
+            {
+                contentMove = move;
+                direction = 1;
+            }
+
             if(nextIndex > contentList.Count - 1)
             {
                 contentMove = move;
@@ -167,12 +173,12 @@ public class NoticePopUp : MonoBehaviour
 
     public void Prev()
     {
-        Scroll(index - 1);
+        Scroll(index + 1);
     }
     
     public void Next()
     {
-        Scroll(index + 1);
+        Scroll(index - 1);
     }
 
     public void ToggleAutoNotify(bool isOn)
