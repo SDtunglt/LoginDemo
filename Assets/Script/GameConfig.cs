@@ -12,5 +12,4 @@ public class GameConfig : MonoBehaviour
     public static string HOST = "";
     
     public static int NormalZoneCount = 6;
-    public static int[][] ZoneStake;
 }

@@ -13,7 +13,6 @@ public class LoginMediator : MonoBehaviour
     private SmartFoxConnection sfs;
     private bool isRegistered = false;
     private string _loginStatusToTestToTest = "";
-    private int reTryNum = 0;
 
     private void OnEnable()
     {
@@ -78,7 +77,6 @@ public class LoginMediator : MonoBehaviour
         GameConfig.LOGIN_COUNT++;
         gameModel.Init(obj);
 
-        reTryNum = 0;
         GetInitData();
         SmartFoxConnection.Instance.Connect();
         loginPanel.SetActive(false);
