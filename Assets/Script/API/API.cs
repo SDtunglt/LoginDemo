@@ -55,6 +55,11 @@ public static class API
     {
         Send("GET", "notice/1", onSuccess, onFailure); // workaround appid 1
     }
+    public static void GetThiDinhRank(Action<JObject> onSuccess, Action<string> onFailure)
+    {
+        Send("GET", "thi-dinh-rank", onSuccess, onFailure);
+    }
+
 
     public static void GetInitData()
     {

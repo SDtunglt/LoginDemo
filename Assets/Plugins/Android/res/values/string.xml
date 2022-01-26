@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources tools:keep="@string/app_name" xmlns:tools="http://schemas.android.com/tools">
+  <string name="app_name" translatable="false">Chắn Sân Đình 5G</string>
+</resources>

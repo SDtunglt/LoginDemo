@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class UIDefaultAnimation : MonoBehaviour
+public class UIDefaultAnimation : MonoBehaviour, IAnimation
 {
-    // Start is called before the first frame update
-    void Start()
+    protected Sequence mainSequence;
+
+    [Button]
+    void Play()
     {
-        
+        OnStart();
+    }
+    
+    public virtual Sequence OnStart()
+    {
+        mainSequence?.Kill();
+        mainSequence = DOTween.Sequence();
+        return mainSequence;
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual Sequence OnReverse()
     {
-        
+        mainSequence?.Kill();
+        mainSequence = DOTween.Sequence();
+        return mainSequence;
+    }
+
+    public virtual Sequence OnStop()
+    {
+        mainSequence?.Pause();
+        return mainSequence;
     }
 }

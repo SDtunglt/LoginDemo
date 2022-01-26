@@ -11,7 +11,7 @@ public class MyUserMediator : MonoBehaviour
 
     public void OnClickButton()
     {
-        ScreenManager.Ins.userDetail.GetUserInfo(userModel.uid,userModel.ip);
+        LoginScreen.Instance.userDetail.GetUserInfo(userModel.uid,userModel.ip);
 
         //UserDetailMediator.Open(userModel.uid, userModel.ip);
         // if (GameModel.Instance.IsNormalPlayer())

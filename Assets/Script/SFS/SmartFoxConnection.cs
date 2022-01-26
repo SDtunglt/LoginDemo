@@ -16,6 +16,9 @@ public class SmartFoxConnection : MonoBehaviour
     private static SmartFoxConnection _Instance;
     private SmartFox sfs;
     private Coroutine connectionCoroutine;
+    public bool isConnected => sfs != null && sfs.IsConnected;
+    public string currentIp => sfs?.CurrentIp;
+    public Room lastJoinedRoom => sfs?.LastJoinedRoom;
 
     private const float TIME_CONNECT = 5.0f;
     private GameModel gameModel = GameModel.Instance;
@@ -73,6 +76,11 @@ public class SmartFoxConnection : MonoBehaviour
             sfs.Disconnect();
             sfs.RemoveAllEventListeners();
         }   
+    }
+
+    public void SendExt(string cmd, ISFSObjVO vo = null)
+    {
+        sfs.Send(new ExtensionRequest(cmd, vo == null ? new SFSObject() : vo.toSFSObject()));
     }
 
     public void Connect()

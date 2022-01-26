@@ -80,9 +80,9 @@ public class LoginMediator : MonoBehaviour
         GetInitData();
         SmartFoxConnection.Instance.Connect();
         loginPanel.SetActive(false);
-        ScreenManager.Ins.success.gameObject.SetActive(true);
-        ScreenManager.Ins.noticePopUp.gameObject.SetActive(true);
-        ScreenManager.Ins.noticePopUp.ShowPopup();
+        LoginScreen.Instance.success.gameObject.SetActive(true);
+        LoginScreen.Instance.noticePopUp.gameObject.SetActive(true);
+        LoginScreen.Instance.noticePopUp.ShowPopup();
     }
 
     private void GetInitData()

@@ -14,7 +14,7 @@ using TMPro;
             public void ShowUserDetail(){
                 gameObject.SetActive(false);
                 Debug.Log("uid: " + UserModel.Instance.uid);
-                ScreenManager.Ins.userDetail.GetUserInfo(UserModel.Instance.uid, UserModel.Instance.ip);
+                LoginScreen.Instance.userDetail.GetUserInfo(UserModel.Instance.uid, UserModel.Instance.ip);
                 Debug.Log("userInfo");
             }
     }

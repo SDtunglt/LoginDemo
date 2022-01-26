@@ -13,6 +13,7 @@ public class RefreshCoinSignal : ASignal{}
 public class UpdateShowCoinSignal : ASignal<bool>{}
 public class RedirectServerComplete : ASignal{}
 public class PlayerJoinedSignal : ASignal{}
+public class ScreenChangedSignal : ASignal<NormalJoinVO>{}
 public class KickPlayerOutBoardSignal : ASignal{}
 public class StopCountDownSignal : ASignal{}
 public class GaScoreChangeSignal : ASignal<int, bool>{}
@@ -55,7 +56,9 @@ public class LostConnectionSignal : ASignal{}
 public class PaySuccessSignal : ASignal{}
 public class PayResponsedSignal : ASignal{}
 public class MissionCompleteSignal : ASignal<bool>{} 
+public class TourVOChangedSignal : ASignal<TourVO>{}
 public class MissionFeaturesUpdatedSignal : ASignal<bool>{}
+public class MultiActiveToursVOChangedSignal : ASignal<List<TourVO>>{}
 public class CongthanUpdatedSignal : ASignal<bool>{}
 public class UpdateQuestDataSignal : ASignal{}
 
