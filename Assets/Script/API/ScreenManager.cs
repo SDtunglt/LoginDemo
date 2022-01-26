@@ -45,6 +45,8 @@ public class ScreenManager : MonoBehaviour
     private SmartFoxConnection sfs;
     private UserModel userModel = UserModel.Instance;
     private GameModel gameModel = GameModel.Instance;
+    public delegate void OnScreenChangeDefine(string screenId);
+    public OnScreenChangeDefine onScreenChangeDefine;
 
     private void Start() 
     {
@@ -64,8 +66,12 @@ public class ScreenManager : MonoBehaviour
         {
             this.ShowFlashWithCallBack(() =>
             {
-                LoadScreenAsync(screen, () => { onScreenChangeDefine.Invoke(screen); })
+                LoadScreenAsync(screen, () => { onScreenChangeDefine.Invoke(screen);});
             });
+        }
+        else
+        {
+            LoadScreenAsync(screen, () => {onScreenChangeDefine.Invoke(screen);});
         }
     }
 
@@ -224,7 +230,7 @@ public class ScreenManager : MonoBehaviour
                     sfs.SendExt(ExtCmd.CreateChallenge,joinVO);
                     break;
             case (int) BaseJoin.CHALLENGE_REQUEST_JOIN:
-                    sfs.SendExt(ExtCmd.JoinChallenge,joinVO)
+                    sfs.SendExt(ExtCmd.JoinChallenge,joinVO);
                     break;
         }
     }
@@ -274,52 +280,6 @@ public class ScreenManager : MonoBehaviour
         TourModel.isOutDateConfig = false;
     }
 
-    public bool CheckJoinZone(int _zone)
-    {
-        var z = GameConfig.ZoneCfg[_zone];
-        if (userModel.gVO.level >= z.level && userModel.gVO.coin >= z.coinToJoin &&
-            userModel.gVO.vipScore >= z.vipToJoin) return true;
-        string msg;
-        if (userModel.gVO.coin < z.coinToJoin)
-        {
-            msg = gameModel.IsNormalPlayer()
-                ? SDMsg.Join(SDMsg.CANTJOINZONECOIN, StringUtils.FormatMoney(z.coinToJoin), z.name)
-                : SDMsg.CANTJOINZONEREVIEW;
-            _statusToTest = "NotEnoughCoin";
-        }
-        else if (userModel.gVO.level < z.level)
-        {
-            msg = SDMsg.Join(SDMsg.CANTJOINZONELEVEL, z.level, z.name);
-            _statusToTest = "NotEnoughLevel";
-        }
-        else
-        {
-            msg = SDMsg.Join(SDMsg.CANTJOINZONEVIP, StringUtils.FormatMoney(z.vipToJoin), z.name);
-            _statusToTest = "NotEnoughVip";
-        }
-
-        if (zone == GameConfig.IdRoomVuongPhu)
-        {
-            if (userModel.gVO.coin < z.coinToJoin && userModel.gVO.vipScore < z.vipToJoin)
-            {
-                if (gameModel.IsNormalPlayer())
-                {
-                    msg = SDMsg.Join(SDMsg.CANTJOINZONE, StringUtils.FormatMoney(z.coinToJoin),
-                        StringUtils.FormatMoney(z.vipToJoin), z.name);
-                    _statusToTest = "NotEnoughVuongPhu";
-                }
-                else
-                {
-                    msg = SDMsg.CANTJOINZONEREVIEW;
-                    _statusToTest = "Review";
-                }
-            }
-        }
-
-        BasicPopup.Open("Thông Báo",
-            msg);
-        return false;
-    }
 
     private enum BaseJoin
     {

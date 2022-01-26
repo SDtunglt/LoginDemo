@@ -127,6 +127,20 @@ public class SmartFoxConnection : MonoBehaviour
         sfs.Send(obj);
     }
 
+    public void LeaveCurRoom()
+    {
+        if (lastJoinedRoom != null)
+        {
+            sfs.Send(new LeaveRoomRequest(lastJoinedRoom));
+        }
+    }
+
+    public void JoinRoom(int z, int r)
+    {
+        //Trên server không check đủ Bảo & exp khi vào phòng (chỉ check phía client, tức có thể hack)
+        sfs.Send(new JoinRoomRequest(z + "_" + r));
+    }
+
     private void OnConnection(BaseEvent evt)
     {
         StopConnectionTimeout();
