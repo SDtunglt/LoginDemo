@@ -19,6 +19,7 @@ public class SmartFoxConnection : MonoBehaviour
     public bool isConnected => sfs != null && sfs.IsConnected;
     public string currentIp => sfs?.CurrentIp;
     public Room lastJoinedRoom => sfs?.LastJoinedRoom;
+    private long oldMyCoin;
 
     private const float TIME_CONNECT = 5.0f;
     private GameModel gameModel = GameModel.Instance;
@@ -111,6 +112,19 @@ public class SmartFoxConnection : MonoBehaviour
 
         sfs.AddEventListener(SFSEvent.LOGIN,OnLogin);
         sfs.AddEventListener(SFSEvent.LOGIN_ERROR,OnLoginError);
+
+        sfs.AddEventListener(SFSEvent.USER_VARIABLES_UPDATE,OnUserVariableUpdate);
+    }
+
+    private void OnUserVariableUpdate(BaseEvent evt)
+    {
+        var user = (User) evt.Params["user"];
+        if(user.IsItMe)
+        {
+            userModel.gVO.coin = (long) user.GetVariable(GameConfig.VAR_COIN).GetDoubleValue();
+            userModel.ip = (double) user.GetVariable(GameConfig.VAR_IP).GetDoubleValue();
+            Signals.Get<RefreshCoinSignal>().Dispatch();
+        }
     }
 
     public void AddEventListener(string e, EventListenerDelegate listener)

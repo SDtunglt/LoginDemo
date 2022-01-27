@@ -81,8 +81,6 @@ public class LoginMediator : MonoBehaviour
         LoginScreen.Instance.gameObject.SetActive(false);
         LoginScreen.Instance.lobby.gameObject.SetActive(true);
         //LoginScreen.Instance.success.gameObject.SetActive(true);
-        //LoginScreen.Instance.noticePopUp.gameObject.SetActive(true);
-        //LoginScreen.Instance.noticePopUp.ShowPopup();
     }
 
     private void GetInitData()

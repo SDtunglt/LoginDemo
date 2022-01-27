@@ -36,4 +36,6 @@ public class GameConfig : MonoBehaviour
     public const string VAR_MIN_U = "u";
     public const string VAR_GA_NUOI = "u";
     public const string VAR_GAME_MODE = "m";
+    public const string VAR_COIN = "c";
+    public const string VAR_IP = "i";
 }

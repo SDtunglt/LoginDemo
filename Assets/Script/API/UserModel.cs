@@ -13,6 +13,7 @@ public class UserModel : Singleton<UserModel>
     public int debt;
     public int roundPlay;
     public int currentSelectBorder = 0;
+    public List<int> unlockBorders = new List<int>();
     public List<UserThiDinhVO> dsBaoDanh = new List<UserThiDinhVO>();
     public List<UserThiDinhVO> bxhThiDinh = new List<UserThiDinhVO>();
 

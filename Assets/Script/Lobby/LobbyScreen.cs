@@ -14,4 +14,8 @@ public class LobbyScreen : MonoBehaviour
         }
     }
     private static LobbyScreen instance;
+    public LobbyMediator lobbyMediator;
+    public NoticePopUp noticePopUp;
+    public MenuMediator menuMediator;
+    public UserDetailMediator userDetailMediator;
 }

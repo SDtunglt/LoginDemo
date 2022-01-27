@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class NoticeContent : MonoBehaviour
 {
-    const float transitionTime = 0.05f;
+    const float transitionTime = 0.5f;
     RectTransform contentRect;
     string link;
     RawImage contentImage;
@@ -18,12 +18,12 @@ public class NoticeContent : MonoBehaviour
     {
         contentImage = GetComponent<RawImage>();
         rect = GetComponent<RectTransform>();
-        contentRect = GetComponentInParent<RectTransform>();
+        /*contentRect = GetComponentInParent<RectTransform>();
         ScrollRect scrollRect = GetComponent<ScrollRect>();
         startPosition = rect.anchoredPosition;
         contentRect = scrollRect.content;
         Scrollbar scrollbar = scrollRect.horizontalScrollbar;
-        scrollbar.onValueChanged.AddListener(OnScrollbarMove);
+        scrollbar.onValueChanged.AddListener(OnScrollbarMove);*/
     }
 
     public void OnScrollbarMove(float f)

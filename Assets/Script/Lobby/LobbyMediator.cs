@@ -11,4 +11,11 @@ public class LobbyMediator : MonoBehaviour
     [SerializeField] private GameObject chonkhuCanvas, thiCuCanvas, gameCanvas;
     private UserModel userModel = UserModel.Instance;
 
+    void OnEnable()
+    {
+        LobbyScreen.Instance.noticePopUp.gameObject.SetActive(true);
+        LobbyScreen.Instance.noticePopUp.ShowPopup();
+        LobbyScreen.Instance.userDetailMediator.GetUserInfo(UserModel.Instance.uid, UserModel.Instance.ip);
+    }
+
 }
