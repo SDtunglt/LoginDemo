@@ -23,6 +23,7 @@ public class SmartFoxConnection : MonoBehaviour
     private const float TIME_CONNECT = 5.0f;
     private GameModel gameModel = GameModel.Instance;
     private UserModel userModel = UserModel.Instance;
+    private ScreenManager screenManager;
 
     public static bool IsConnected
     {

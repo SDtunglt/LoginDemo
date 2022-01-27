@@ -7,7 +7,6 @@ using Newtonsoft.Json.Linq;
 public class LoginMediator : MonoBehaviour
 {
     [SerializeField] private TMP_InputField ipfUsername,ipfPassword;
-    [SerializeField] GameObject loginPanel, loginSuccessPanel;
     private GameModel gameModel = GameModel.Instance;
     private UserModel userModel = UserModel.Instance;
     private SmartFoxConnection sfs;
@@ -79,10 +78,11 @@ public class LoginMediator : MonoBehaviour
 
         GetInitData();
         SmartFoxConnection.Instance.Connect();
-        loginPanel.SetActive(false);
-        LoginScreen.Instance.success.gameObject.SetActive(true);
-        LoginScreen.Instance.noticePopUp.gameObject.SetActive(true);
-        LoginScreen.Instance.noticePopUp.ShowPopup();
+        LoginScreen.Instance.gameObject.SetActive(false);
+        LoginScreen.Instance.lobby.gameObject.SetActive(true);
+        //LoginScreen.Instance.success.gameObject.SetActive(true);
+        //LoginScreen.Instance.noticePopUp.gameObject.SetActive(true);
+        //LoginScreen.Instance.noticePopUp.ShowPopup();
     }
 
     private void GetInitData()

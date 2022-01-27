@@ -54,15 +54,10 @@ public class ViewCreator
     {
         if (popupCt != null)
         {
-            Executors.StopCoroutine(popupCt);
+            //Executors.StopCoroutine(popupCt);
         }
 
-        if(SwitchUI.CurrentType == ComponentType.Chan2)
-        {
-            popupName += "_2";
-        }
-
-        popupCt = Executors.RunOnCoroutineReturn(IOpenPopup(popupName, onLoadComplete, isWithoutParent, parent));
+        //popupCt = Executors.RunOnCoroutineReturn(IOpenPopup(popupName, onLoadComplete, isWithoutParent, parent));
     }
 
     public static void OpenScreen(string screenName, Action<UIBaseView> onLoadComplete = null,
@@ -70,13 +65,13 @@ public class ViewCreator
     {
         if (screenCt != null)
         {
-            Executors.StopCoroutine(screenCt);
+            //Executors.StopCoroutine(screenCt);
         }
 
-        screenCt = Executors.RunOnCoroutineReturn(IOpenScreen(screenName, onLoadComplete, isWithoutParent, parent));
+        //screenCt = Executors.RunOnCoroutineReturn(IOpenScreen(screenName, onLoadComplete, isWithoutParent, parent));
     }
 
-    public static IEnumerator IOpenPopup(string popupName, Action<UIBaseView> onLoadComplete = null,
+    /*public static IEnumerator IOpenPopup(string popupName, Action<UIBaseView> onLoadComplete = null,
         bool isWithoutParent = false, Transform parent = null)
     {
         var priority = ViewPriority.Ins.GetPriority(popupName);
@@ -149,9 +144,9 @@ public class ViewCreator
 
             onLoadComplete?.Invoke(m);
         }
-    }
+    }*/
 
-    public static IEnumerator IOpenScreen(string screenName, Action<UIBaseView> onLoadComplete = null,
+    /*public static IEnumerator IOpenScreen(string screenName, Action<UIBaseView> onLoadComplete = null,
         bool isWithoutParent = false, Transform parent = null)
     {
         if (!Prefabs.ContainsKey(screenName))
@@ -199,7 +194,7 @@ public class ViewCreator
 
             onLoadComplete?.Invoke(m);
         });
-    }
+    }*/
 
     public static void ClosePopup(string popupName)
     {
@@ -242,7 +237,7 @@ public class ViewCreator
         }
     }
 
-    private static IEnumerator LoadView(string name, Action<UIBaseView> onComplete)
+    /*private static IEnumerator LoadView(string name, Action<UIBaseView> onComplete)
     {
         GameObject go = null;
 
@@ -256,73 +251,9 @@ public class ViewCreator
 
         go = request.asset as GameObject;
         onComplete.Invoke(go.GetComponent<UIBaseView>());
-    }
+    }*/
 
-    public static void LoadObject(string path, Action<GameObject> onComplete)
-    {
-        Executors.RunOnCoroutineNoReturn(ILoadObject(path, onComplete));
-    }
 
-    private static IEnumerator ILoadObject(string path, Action<GameObject> onComplete)
-    {
-        GameObject go = null;
-
-        var request = AssetsLoader.LoadAsset(path, typeof(GameObject));
-        yield return request;
-        if (!string.IsNullOrEmpty(request.error))
-        {
-            request.Release();
-            yield break;
-        }
-
-        go = request.asset as GameObject;
-        onComplete.Invoke(go);
-    }
-
-    public static void LoadSound(string soundName, Action<AudioClip> onComplete)
-    {
-        Executors.RunOnCoroutineNoReturn(ILoadSound(soundName, onComplete));
-    }
-
-    private static IEnumerator ILoadSound(string soundName, Action<AudioClip> onComplete)
-    {
-        AudioClip go = null;
-
-        var request = AssetsLoader.LoadAsset($"{SoundPath}{soundName}.mp3", typeof(AudioClip));
-        yield return request;
-        if (!string.IsNullOrEmpty(request.error))
-        {
-            request.Release();
-            yield break;
-        }
-
-        go = request.asset as AudioClip;
-        onComplete.Invoke(go);
-    }
-
-    public static void LoadListSound(List<string> soundNames, Action<List<AudioClip>> onComplete)
-    {
-        Executors.RunOnCoroutineNoReturn(ILoadListSound(soundNames, onComplete));
-    }
-
-    private static IEnumerator ILoadListSound(List<string> soundNames, Action<List<AudioClip>> onComplete)
-    {
-        var requests = new List<AssetRequest>();
-        foreach (var soundName in soundNames)
-        {
-            if (string.IsNullOrEmpty(soundName))
-            {
-                continue;
-            }
-
-            var request = AssetsLoader.LoadAsset($"{SoundPath}{soundName}.mp3", typeof(AudioClip));
-            requests.Add(request);
-        }
-
-        yield return new WaitUntil(() => requests.TrueForAll(o => o.isDone));
-        var list = requests.Select(request => request.asset as AudioClip).ToList();
-        onComplete.Invoke(list);
-    }
 
     public static void ShowFlashWithCallBack(Action a)
     {

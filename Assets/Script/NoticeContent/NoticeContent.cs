@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class NoticeContent : MonoBehaviour
 {
@@ -48,14 +49,19 @@ public class NoticeContent : MonoBehaviour
     {
         if(isOut)
         {
+            rect.DOAnchorPosX(rect.sizeDelta.x * direction, transitionTime);
             StartCoroutine(InactiveTimer());
         }
         else
         {
-            OnScrollbarMove(move);
+            //OnScrollbarMove(move);
             StopAllCoroutines();
             gameObject.SetActive(true);
-            noticePopUp.Ready(true);
+            rect.anchoredPosition = new Vector2(rect.sizeDelta.x * direction * -1,0);
+            rect.DOAnchorPosX(0, transitionTime).OnComplete(() =>
+            {
+                noticePopUp.Ready(true);
+            });
         }
     }
 

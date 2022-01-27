@@ -52,6 +52,21 @@ public class GameUtils
         Application.OpenURL(url);
     }
 
+    public static string GetAvatarUrl(string uid, string t, int date = -1)
+    {
+        if (uid == UserModel.Instance.uid && date == -1) return AvatarPicture(uid, t, GameModel.Instance.myAvatarDate);
+        return AvatarPicture(uid, t, date);
+    }
+
+    public static string AvatarPicture(string uid, string t = "m", int date = -1)
+    {
+        var base_ava_url = GlobalDataManager.Ins.AVT_API;
+
+        if (date < 0) return base_ava_url + "game/avatar?id=" + uid + "&type=" + t;
+        return base_ava_url + "game/avatar?id=" + uid + "&type=" + t + "&date=" + date;
+    }
+
+
     
     public static string GetDeviceId()
     {

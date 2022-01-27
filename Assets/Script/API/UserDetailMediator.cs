@@ -11,7 +11,7 @@ public class UserDetailMediator : MonoBehaviour
     private UserModel userModel = UserModel.Instance;
     public string uid;
     [SerializeField] private TMP_Text txtName,
-
+        txtCoin,
         txtGender,
         txtId,
         txtPlay,

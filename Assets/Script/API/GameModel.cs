@@ -16,7 +16,7 @@ public class GameModel : Singleton<GameModel>
     public bool mqttEnable = false;
     public int payEnable = 3;
     public int totalPlay = 0;
-
+    public int myAvatarDate = -1;
     public int minPlay = 10;
     
 

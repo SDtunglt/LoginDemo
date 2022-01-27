@@ -17,7 +17,6 @@ public class LoginScreen : MonoBehaviour
     public UserDetailMediator userDetail;
     public LoginSuccessDetailMediator success;
     public NoticePopUp noticePopUp;
-
-
+    public LobbyScreen lobby;
 
 }

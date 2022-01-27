@@ -75,6 +75,7 @@ public class ScreenManager : MonoBehaviour
         }
     }
 
+
     private void LoadScreenAsync(string screen, Action onComplete)
     {
         StartCoroutine(ILoadSceneAsync(screen, onComplete));
@@ -294,6 +295,11 @@ public class ScreenManager : MonoBehaviour
     }
 
     private string _statusToTest = "";
+    public bool IsOnScreen(string screenId)
+    {
+        Debug.Log(screenId);
+        return currentScreen == screenId;
+    }
 
 }
 
@@ -304,6 +310,7 @@ public class RoomResume
     public int b;
 }
 
+[Serializable]
 public class ScreenDefine
 {
     public string id;
