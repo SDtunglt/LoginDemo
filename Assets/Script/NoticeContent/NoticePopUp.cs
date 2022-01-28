@@ -119,25 +119,25 @@ public class NoticePopUp : MonoBehaviour
             int direction = 1;
             if(nextIndex > index)
             {
-                ContentMoveSp = -move;
+                move = -ContentMoveSp;
                 direction = -1;
             }
 
             if(nextIndex < index)
             {
-                ContentMoveSp = move;
+                move = ContentMoveSp;
                 direction = 1;
             }
 
             if(nextIndex > contentList.Count - 1)
             {
-                ContentMoveSp = move;
+                move = ContentMoveSp;
                 nextIndex = 0;
             }
 
             else if (nextIndex < 0)
             {
-                move = -move;
+                move = -ContentMoveSp;
                 nextIndex = contentList.Count - 1;
             }
 

@@ -64,6 +64,18 @@ public class UserGameVO
         }
     }
 
+    private int _vipScore;
+    public int vipScore
+    {
+        get { return _vipScore; }
+        set
+        {
+            _vipScore = value; 
+            vip = VipType.FromScore(value);
+        }
+    }
+    public VipType vip = VipType.Dan;
+
     public static int CalculateLevel(int exp)
     {
         for (var i = 0; i < 8; i++)
@@ -221,5 +233,45 @@ public class VipType
     public int score;
     public int debt;
     public bool transferable;
+    private static VipType Nhat = new VipType(1, "Nhất Phẩm", 10000, 1000000000, true);
+    private static VipType Nhi = new VipType(2, "Nhị Phẩm", 5000, 500000000, true);
+    private static VipType Tam = new VipType(3, "Tam Phẩm", 4000, 400000000, true);
+    private static VipType Tu = new VipType(4, "Tứ Phẩm", 3000, 300000000, true);
+    private static VipType Ngu = new VipType(5, "Ngũ Phẩm", 2000, 200000000, true);
+    private static VipType Luc = new VipType(6, "Lục Phẩm", 1500, 150000000, true);
+    private static VipType That = new VipType(7, "Thất Phẩm", 1000, 100000000, true);
+    private static VipType Bat = new VipType(8, "Bát Phẩm", 500, 50000000, true);
+    private static VipType Cuu = new VipType(9, "Cửu Phẩm", 200, 0, true);
+    public static VipType Dan = new VipType(0, "Thường Dân", 0, 0, false);
+    private static List<VipType> VIP_TYPES = new List<VipType>() {Dan, Nhat, Nhi, Tam, Tu, Ngu, Luc, That, Bat, Cuu};
+    public static List<VipType> LIST_VIP = new List<VipType>() {Dan, Cuu, Bat, That, Luc, Ngu, Tu, Tam, Nhi, Nhat};
+
+    public VipType(int id, string _vipName, int score, int debt, bool transferable)
+    {
+        this.id = id;
+        this.vipName = _vipName;
+        this.score = score;
+        this.debt = debt;
+        this.transferable = transferable;
+    }
+
+    public static VipType FromScore(int score)
+    {
+        if (score >= Nhat.score) return Nhat;
+        if (score >= Nhi.score) return Nhi;
+        if (score >= Tam.score) return Tam;
+        if (score >= Tu.score) return Tu;
+        if (score >= Ngu.score) return Ngu;
+        if (score >= Luc.score) return Luc;
+        if (score >= That.score) return That;
+        if (score >= Bat.score) return Bat;
+        if (score >= Cuu.score) return Cuu;
+        return Dan;
+    }
+
+    public static VipType fromId(int id)
+    {
+        return VIP_TYPES[id];
+    }
     
 }

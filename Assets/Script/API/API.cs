@@ -55,6 +55,15 @@ public static class API
     {
         Send("GET", "notice/1", onSuccess, onFailure); // workaround appid 1
     }
+    public static void GetThiDinhRank(Action<JObject> onSuccess, Action<string> onFailure)
+    {
+        Send("GET", "thi-dinh-rank", onSuccess, onFailure);
+    }
+    public static void GetListBorderAvatar(Action<JObject> onSuccess, Action<string> onFailure)
+    {
+        Send("GET", "list-frame-avatar?v=2_15_2", onSuccess, onFailure);
+    }
+
 
     public static void GetInitData()
     {
@@ -74,6 +83,12 @@ public static class API
                 if (reTryNum <= 3) GetInitData();
             }, 
             agent.ToJson());
+        GetListBorderAvatar(data =>
+        {
+            UserModel.Instance.unlockBorders = data.GetValue("a").Select(s => (int) s).ToList();
+            var x = (int) data.GetValue("c");
+            UserModel.Instance.currentSelectBorder = GlobalDataManager.Ins.khungAvatarData.infos.Any(s => s.id == x) ? x : 0;
+        }, Debug.Log);
     }
 
 }

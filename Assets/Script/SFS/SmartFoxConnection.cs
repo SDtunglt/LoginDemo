@@ -16,10 +16,15 @@ public class SmartFoxConnection : MonoBehaviour
     private static SmartFoxConnection _Instance;
     private SmartFox sfs;
     private Coroutine connectionCoroutine;
+    public bool isConnected => sfs != null && sfs.IsConnected;
+    public string currentIp => sfs?.CurrentIp;
+    public Room lastJoinedRoom => sfs?.LastJoinedRoom;
+    private long oldMyCoin;
 
     private const float TIME_CONNECT = 5.0f;
     private GameModel gameModel = GameModel.Instance;
     private UserModel userModel = UserModel.Instance;
+    private ScreenManager screenManager;
 
     public static bool IsConnected
     {
@@ -75,6 +80,11 @@ public class SmartFoxConnection : MonoBehaviour
         }   
     }
 
+    public void SendExt(string cmd, ISFSObjVO vo = null)
+    {
+        sfs.Send(new ExtensionRequest(cmd, vo == null ? new SFSObject() : vo.toSFSObject()));
+    }
+
     public void Connect()
     {
         ConfigData cfg = new ConfigData();
@@ -102,6 +112,19 @@ public class SmartFoxConnection : MonoBehaviour
 
         sfs.AddEventListener(SFSEvent.LOGIN,OnLogin);
         sfs.AddEventListener(SFSEvent.LOGIN_ERROR,OnLoginError);
+
+        sfs.AddEventListener(SFSEvent.USER_VARIABLES_UPDATE,OnUserVariableUpdate);
+    }
+
+    private void OnUserVariableUpdate(BaseEvent evt)
+    {
+        var user = (User) evt.Params["user"];
+        if(user.IsItMe)
+        {
+            userModel.gVO.coin = (long) user.GetVariable(GameConfig.VAR_COIN).GetDoubleValue();
+            userModel.ip = (double) user.GetVariable(GameConfig.VAR_IP).GetDoubleValue();
+            Signals.Get<RefreshCoinSignal>().Dispatch();
+        }
     }
 
     public void AddEventListener(string e, EventListenerDelegate listener)
@@ -117,6 +140,20 @@ public class SmartFoxConnection : MonoBehaviour
     public void Send(IRequest obj)
     {
         sfs.Send(obj);
+    }
+
+    public void LeaveCurRoom()
+    {
+        if (lastJoinedRoom != null)
+        {
+            sfs.Send(new LeaveRoomRequest(lastJoinedRoom));
+        }
+    }
+
+    public void JoinRoom(int z, int r)
+    {
+        //Trên server không check đủ Bảo & exp khi vào phòng (chỉ check phía client, tức có thể hack)
+        sfs.Send(new JoinRoomRequest(z + "_" + r));
     }
 
     private void OnConnection(BaseEvent evt)

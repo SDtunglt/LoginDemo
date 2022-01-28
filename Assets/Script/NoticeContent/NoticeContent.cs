@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class NoticeContent : MonoBehaviour
 {
-    const float transitionTime = 0.05f;
+    const float transitionTime = 0.5f;
     RectTransform contentRect;
     string link;
     RawImage contentImage;
@@ -17,12 +18,12 @@ public class NoticeContent : MonoBehaviour
     {
         contentImage = GetComponent<RawImage>();
         rect = GetComponent<RectTransform>();
-        contentRect = GetComponentInParent<RectTransform>();
+        /*contentRect = GetComponentInParent<RectTransform>();
         ScrollRect scrollRect = GetComponent<ScrollRect>();
         startPosition = rect.anchoredPosition;
         contentRect = scrollRect.content;
         Scrollbar scrollbar = scrollRect.horizontalScrollbar;
-        scrollbar.onValueChanged.AddListener(OnScrollbarMove);
+        scrollbar.onValueChanged.AddListener(OnScrollbarMove);*/
     }
 
     public void OnScrollbarMove(float f)
@@ -48,14 +49,19 @@ public class NoticeContent : MonoBehaviour
     {
         if(isOut)
         {
+            rect.DOAnchorPosX(rect.sizeDelta.x * direction, transitionTime);
             StartCoroutine(InactiveTimer());
         }
         else
         {
-            OnScrollbarMove(move);
+            //OnScrollbarMove(move);
             StopAllCoroutines();
             gameObject.SetActive(true);
-            noticePopUp.Ready(true);
+            rect.anchoredPosition = new Vector2(rect.sizeDelta.x * direction * -1,0);
+            rect.DOAnchorPosX(0, transitionTime).OnComplete(() =>
+            {
+                noticePopUp.Ready(true);
+            });
         }
     }
 

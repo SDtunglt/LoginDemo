@@ -129,6 +129,7 @@ public class GlobalDataManager : MonoBehaviour
     public Sprite[] backgrounds;
     public Sprite[] backCard;
     public Color[] backCardTxtColors;
+    public KhungAvatarData khungAvatarData;
 
     
     #region Share
