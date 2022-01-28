@@ -15,7 +15,6 @@ public class LobbyMediator : MonoBehaviour
     {
         LobbyScreen.Instance.noticePopUp.gameObject.SetActive(true);
         LobbyScreen.Instance.noticePopUp.ShowPopup();
-        LobbyScreen.Instance.userDetailMediator.GetUserInfo(UserModel.Instance.uid, UserModel.Instance.ip);
     }
 
 }

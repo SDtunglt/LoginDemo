@@ -14,7 +14,6 @@ public class LoginScreen : MonoBehaviour
     }
     private static LoginScreen instance;
     public LoginMediator login;
-    public UserDetailMediator userDetail;
     public LoginSuccessDetailMediator success;
     public LobbyScreen lobby;
 

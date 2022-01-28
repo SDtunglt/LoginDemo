@@ -26,6 +26,8 @@ public class GameModel : Singleton<GameModel>
     {
         Debug.Log($"Game model init: {obj.ToString()}");
         loginSession = (string) obj["sid"];
+
+        userModel.name = (string) obj["name"];    
         userModel.uid = (string) obj["uid"];
         GameConfig.HOST = (string) obj["host"];
         GameConfig.PORT = int.Parse(obj["port"].ToString());

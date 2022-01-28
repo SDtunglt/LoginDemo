@@ -19,6 +19,7 @@ public class UserDetailMediator : MonoBehaviour
         txtGender,
         txtId,
         txtPlay,
+        txtU,
         //txtBigU,
         txtCuocBigU;
         //txtIp;
@@ -68,10 +69,16 @@ public class UserDetailMediator : MonoBehaviour
         
     }
 
+    public void ClosePopUpUserDetail()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnGetUserDetailError(string error)
     {
         Debug.Log("Thông báo không thể kết nối được với hệ thống vui lòng thử lại");  
     }
+
     private void OnGetUserDetailSuccess(string uid, double ip, JObject obj)
     {
         this.uid = uid;
@@ -80,13 +87,14 @@ public class UserDetailMediator : MonoBehaviour
         Debug.Log($"{vo.cVO.name} {vo.gVO.coin} {uid} {vo.cVO.GetGender()} {vo.gVO.win} {vo.gVO.total}");
         txtId.text = "ID: " + uid;
         txtName.text = $"UserName: {vo.cVO.name}";
+        txtCoin.text = $"Coin: {vo.gVO.coin}";
         txtGender.text = "Giới tính: " + vo.cVO.GetGender();
         txtPlay.text = $"Số ván chơi: {vo.gVO.total}";
         //txtCuocBigU.text = $"Số ván Ù: {vo.gVO.strBigU}";
-        txtCoin.text = $"Coin: {vo.gVO.coin}";
 
 
-        //txtU.text = StringUtils.FormatMoney(vo.gVO.win);
+
+        txtU.text = StringUtils.FormatMoney(vo.gVO.win);
         //txtLvl.text = vo.gVO.level.ToString();
         string diem = "0";
         if (string.IsNullOrEmpty(vo.gVO.strBigU))
