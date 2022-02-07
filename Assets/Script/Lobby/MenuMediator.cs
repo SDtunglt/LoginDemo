@@ -11,6 +11,10 @@ public class MenuMediator : MonoBehaviour
 {
     [SerializeField] private GameObject btnSetting,pullDownMenu,btnLogOut,backBtn;
     [SerializeField] private Image imgTaskNoti,imgMenuNoti;
+    [SerializeField] private MenuType menuType;
+    [SerializeField] private Image frameIm;
+    [SerializeField] private Sprite[] frameIcons;
+    [SerializeField] private GameObject[] avatars;
     [SerializeField] private Button btnTask;
     [SerializeField] private GameObject avatar;
     [SerializeField] private Sprite[] frameIcon;
@@ -22,4 +26,14 @@ public class MenuMediator : MonoBehaviour
     {
         screenManager = ScreenManager.Instance;
     }
+    
+}
+public enum MenuType
+{
+    Lobby,
+    SelectZone,
+    SelectBoard,
+    Tournament,
+    ThiDinh,
+    Shop
 }

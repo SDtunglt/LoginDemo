@@ -47,6 +47,7 @@ public class ScreenManager : MonoBehaviour
     private GameModel gameModel = GameModel.Instance;
     public delegate void OnScreenChangeDefine(string screenId);
     public OnScreenChangeDefine onScreenChangeDefine;
+    public static int LastZone = -1, LastRoom = -1, LastBoard;
 
     private void Start() 
     {
