@@ -22,6 +22,52 @@ public class GameModel : Singleton<GameModel>
 
     private UserModel  userModel = UserModel.Instance;
 
+    public static Dictionary<string, bool> Features = new Dictionary<string, bool>()
+    {
+        {Mission, false},
+        {PayHelpReq, false},
+        {PayCard, false},
+        {PayCardNew, false},
+        {ArenaNew, false},
+        {BlackList, false},
+        {LoginGift, false},
+        {IntroductoryGift, false},
+        {PhoneAuthentication, false},
+        {TopWeekVuong, false},
+        {payNew, false},
+        {firstPurchase, false},
+        {moQuanNoc, false},
+        {lyNguFeature, false},
+        {tamHoaFeature, false},
+        {congthanFeature, false},
+        {VinaFeature, false},
+        {Event10YFeature, false},
+        {ChallengeFeature, false},       
+        {TetFeature, false}
+    };
+
+    public const string Mission = "1";
+    public const string PayHelpReq = "2";
+    public const string PayCard = "3";
+    public const string PayCardNew = "4";
+    public const string ArenaNew = "12";
+    public const string BlackList = "10";
+    public const string LoginGift = "11";
+    public const string IntroductoryGift = "14";
+    public const string PhoneAuthentication = "15";
+    public const string TopWeekVuong = "13";
+    public const string payNew = "16";
+    public const string firstPurchase = "17";
+    public const string moQuanNoc = "18";
+    public const string lyNguFeature = "19";
+    public const string tamHoaFeature = "20";
+    public const string VinaFeature = "28";
+    public const string congthanFeature = "29";
+    public const string Event10YFeature = "30";
+    public const string ChallengeFeature = "31";
+    public const string TetFeature = "32";
+
+
     public void Init(JObject obj)
     {
         Debug.Log($"Game model init: {obj.ToString()}");

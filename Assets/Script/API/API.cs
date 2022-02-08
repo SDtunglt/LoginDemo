@@ -63,7 +63,26 @@ public static class API
     {
         Send("GET", "list-frame-avatar?v=2_15_2", onSuccess, onFailure);
     }
+    public static void GetTotalReceived(Action<JObject> onSuccess, Action<string> onFailure, int hinhThuc, string nhaMang, string changeDisplay)
+    {
+        var data = hinhThuc + "," + nhaMang + "," + changeDisplay;
+        Send("GET", "coin-received-estimate-new/" + data, onSuccess, onFailure);
+    }
+    
+    public static void GetEstimateWallet(Action<JObject> onSuccess, Action<string> onFailure)
+    {
+        Send("GET", "coin-estimate-wallet-new", onSuccess, onFailure);
+    }
 
+    public static void GetCoinMod(Action<JObject> onSuccess, Action<string> onFailure)
+    {
+        Send("GET", "coin-estimate-mod", onSuccess, onFailure);
+    }
+    
+    public static void PayCardNew(Action<JObject> onSuccess, Action<string> onFailure, string data)
+    {
+        Send("POST", "pay-card-bb2", onSuccess, onFailure, data);
+    }
 
     public static void GetInitData()
     {

@@ -75,6 +75,7 @@ public class ChonNocDoneSignal : ASignal{}
 public class DealCardDoneSignal : ASignal{}
 public class OnJoinGamePlaySignal : ASignal{}
 public class OnUserSelectImageFromStorage : ASignal<Texture2D>{}
+public class UpdateMenuMediatorSignal : ASignal<MenuType>{}
 public class OnLeaveBoardGame : ASignal{}
 public class OnPlayerLeaveBoard : ASignal{}
 public class OnFriendStatusChangeSignal : ASignal<int>{}
@@ -86,3 +87,4 @@ public class OnChangeCardClockTime : ASignal<int, float>{}
 public class OnGetInitDataComplete : ASignal{}
 public class OnChangeChallengeInvited : ASignal{}
 public class OnChangeChallengeInviteCount : ASignal<int>{}
+public class NoticeHaveKm : ASignal{}

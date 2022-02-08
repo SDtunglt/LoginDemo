@@ -16,6 +16,9 @@ using Random = System.Random;
 
 public class GameUtils
 {
+    public static bool IsCTDCActive ;
+    public static bool IsUI2 { get; private set; }
+    private const string SaveCard = "card_saved";
     private static readonly List<int> ALPHA_CHAR_CODES = new List<int>()
         { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70 };
     public static bool IsWeb()
@@ -41,6 +44,16 @@ public class GameUtils
         return "Web";
 #endif
         return "Android";
+    }
+
+    public static bool IsAndroid()
+    {
+        return Application.platform == RuntimePlatform.Android;
+    }
+
+    public static bool IsIOS()
+    {
+        return Application.platform == RuntimePlatform.IPhonePlayer;
     }
 
     public static void OpenUrl(string url)
@@ -139,6 +152,37 @@ public class GameUtils
     public static bool IsEditor()
     {
         return Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor;
+    }
+
+    private static void OpenShopReview()
+    {
+        //LoadingEffect.Open();
+        WalletPopup.Open();
+    }
+
+    
+    private static void OpenShopNormal()
+    {
+        ShopMediator.Open();
+    }
+
+    public static void OnShopClick()
+    {
+        if (IsIOS())
+        {
+            OpenShopReview();
+            
+            
+            return;
+        }
+        if (((GameModel.Instance.IsNormalPlayer() && GameModel.Instance.payEnable != 2) || GameUtils.IsWeb()))
+        {
+            OpenShopNormal();
+        }
+        else
+        {
+            OpenShopReview();
+        }
     }
     
 }
