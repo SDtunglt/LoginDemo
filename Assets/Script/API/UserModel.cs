@@ -16,6 +16,8 @@ public class UserModel : Singleton<UserModel>
     public List<int> unlockBorders = new List<int>();
     public List<UserThiDinhVO> dsBaoDanh = new List<UserThiDinhVO>();
     public List<UserThiDinhVO> bxhThiDinh = new List<UserThiDinhVO>();
+    public bool firstCharge = false;
+    public string kmValue = "";
 
     public static string GetGender(string _gender)
     {

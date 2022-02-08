@@ -1,6 +1,6 @@
 using System;
 
-public static class aSDMsg
+public static class SDMsg
 {
     public const string CANTJOINZONEVIP = "Bạn phải có ít nhất <b>{0}</b> điểm Công Thần để vào khu <b>{1}</b>";
     public const string CANTJOINZONECOIN = "Bạn phải có ít nhất <b>{0} Bảo</b> để vào khu <b>{1}</b>";

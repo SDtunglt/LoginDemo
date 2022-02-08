@@ -87,3 +87,4 @@ public class OnChangeCardClockTime : ASignal<int, float>{}
 public class OnGetInitDataComplete : ASignal{}
 public class OnChangeChallengeInvited : ASignal{}
 public class OnChangeChallengeInviteCount : ASignal<int>{}
+public class NoticeHaveKm : ASignal{}
