@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class LobbyMediator : MonoBehaviour
 {
     [SerializeField] private GameObject chonkhuCanvas, thiCuCanvas, gameCanvas;
-    [SerializeField] private GameObject btnBack;
+    [SerializeField] public GameObject btnBack;
     private UserModel userModel = UserModel.Instance;
 
     void OnEnable()
@@ -36,6 +36,7 @@ public class LobbyMediator : MonoBehaviour
     public void OnBackClick()
     {
         chonkhuCanvas.SetActive(false);
+        LobbyScreen.Instance.bottomBarMediator.OnCloseShop();
         btnBack.Hide();
         Signals.Get<UpdateMenuMediatorSignal>().Dispatch(MenuType.Lobby);
     }

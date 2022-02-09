@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class BottomBarMediator : MonoBehaviour
 {
     private UserModel userModel = UserModel.Instance;
-    [SerializeField] private GameObject WalletPopup;
+    [SerializeField] public GameObject WalletPopup;
     [SerializeField] private GameObject giftCodeBtn_2;
     [SerializeField] private Button findBoardBtn, gifttCodeBtn, rankBtn, shopBtn;
     private DataPayReceived dataPayMod;
@@ -39,9 +39,15 @@ public class BottomBarMediator : MonoBehaviour
     {
         GameUtils.OnShopClick();
         WalletPopup.SetActive(true);
+        LobbyScreen.Instance.lobbyMediator.btnBack.Show();
     }
 
-        private void OnEnable()
+    public void OnCloseShop()
+    {
+        WalletPopup.SetActive(false);
+    }
+
+    private void OnEnable()
     {
         Signals.Get<LogoutSignal>().AddListener(OnLogout);
 #if UNITY_IOS

@@ -18,4 +18,5 @@ public class LobbyScreen : MonoBehaviour
     public NoticePopUp noticePopUp;
     public MenuMediator menuMediator;
     public UserDetailMediator userDetail;
+    public BottomBarMediator bottomBarMediator;
 }

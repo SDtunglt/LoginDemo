@@ -1303,7 +1303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2622848404253537621
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3916,12 +3916,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemWallets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2622848404240650837}
+  - {fileID: 2622848405663395402}
+  - {fileID: 2622848405261509410}
+  - {fileID: 2622848404914041128}
+  - {fileID: 2622848403934993853}
+  - {fileID: 2622848404519930886}
   cbbPromo: {fileID: 0}
 --- !u!1 &2622848405663395400
 GameObject:
