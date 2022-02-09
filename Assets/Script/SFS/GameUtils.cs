@@ -19,6 +19,7 @@ public class GameUtils
     public static bool IsCTDCActive ;
     public static bool IsUI2 { get; private set; }
     private const string SaveCard = "card_saved";
+    private ShopMediator shopMediator;
     private static readonly List<int> ALPHA_CHAR_CODES = new List<int>()
         { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70 };
     public static bool IsWeb()
@@ -163,6 +164,7 @@ public class GameUtils
     
     private static void OpenShopNormal()
     {
+        
         ShopMediator.Open();
     }
 
