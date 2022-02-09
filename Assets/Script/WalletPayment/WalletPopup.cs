@@ -15,7 +15,7 @@ public class WalletPopup : UIPopup
         PaymentData.ForceGetPayData(null, null, () =>
         {
             //LoadingEffect.CloseLast();
-            ViewCreator.OpenPopup(PopupId.WalletPopup, view =>
+            ViewCreator.OpenPopup(PopupId.WalletPopup , view =>
             {
                 var shop = view.Cast<WalletPopup>();
                 // shop.myIAPManager.SetupView(data);

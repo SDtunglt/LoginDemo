@@ -93,6 +93,31 @@ public static class API
             data =>
             {
                 if (data["status"].ToString().ToLower() != "ok") return;
+                if (data["firstCharge"] != null)
+                {
+                    UserModel.Instance.firstCharge = (bool) data["firstCharge"];
+                }
+                else
+                {
+                    UserModel.Instance.firstCharge = false;
+                }
+
+                if (data["wave"] != null)
+                {
+                    UserModel.Instance.kmValue = (string) data["wave"];
+                }
+                else
+                {
+                    UserModel.Instance.kmValue = "";
+                }
+                if (data["app"] != null)
+                {
+                    GameModel.Instance.totalPlay = (int) data["app"]["t"];
+                }
+                else
+                {
+                    GameModel.Instance.totalPlay = 0;
+                }
                 
                 Signals.Get<OnGetInitDataComplete>().Dispatch();
                 Debug.Log("initdata: " + data.ToString());
