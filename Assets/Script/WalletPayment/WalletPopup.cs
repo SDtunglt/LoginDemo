@@ -9,6 +9,7 @@ public class WalletPopup : UIPopup
     [SerializeField] private MyIAPManager myIAPManager;
     private Action onClose;
 
+
     public static void Open()
     {
         PaymentData.ForceGetPayData(null, null, () =>
@@ -28,5 +29,11 @@ public class WalletPopup : UIPopup
                 shop.OpenView();
             });
         });
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        onClose?.Invoke();
     }
 }
