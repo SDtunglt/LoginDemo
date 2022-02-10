@@ -179,10 +179,10 @@ public class GameUtils
         }
         if (((GameModel.Instance.IsNormalPlayer() && GameModel.Instance.payEnable != 2) || GameUtils.IsWeb()))
         {
-            OpenShopNormal();
+            /*OpenShopNormal();
         }
         else
-        {
+        {*/
             OpenShopReview();
         }
     }
