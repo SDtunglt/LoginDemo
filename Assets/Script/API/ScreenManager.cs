@@ -149,6 +149,8 @@ public class ScreenManager : MonoBehaviour
         CheckConnToJoin(vo);
     }
 
+    
+
     public void JoinRoom(int _zone,int _room, bool isQuickJoin = false)
     {
         if(isQuickJoin)
@@ -178,6 +180,7 @@ public class ScreenManager : MonoBehaviour
             JoinRoom(zone,room);
         }
     }
+    
 
     public void CancelJoin()
     {
@@ -282,7 +285,53 @@ public class ScreenManager : MonoBehaviour
         TourModel.isOutDateConfig = false;
     }
 
+    public bool CheckJoinZone(int _zone)
+    {
+        var z = GameConfig.ZoneCfg[_zone];
+        if (userModel.gVO.level >= z.level && userModel.gVO.coin >= z.coinToJoin &&
+            userModel.gVO.vipScore >= z.vipToJoin) return true;
+        string msg;
+        if (userModel.gVO.coin < z.coinToJoin)
+        {
+            msg = gameModel.IsNormalPlayer()
+                ? SDMsg.Join(SDMsg.CANTJOINZONECOIN, StringUtils.FormatMoney(z.coinToJoin), z.name)
+                : SDMsg.CANTJOINZONEREVIEW;
+            _statusToTest = "NotEnoughCoin";
+        }
+        else if (userModel.gVO.level < z.level)
+        {
+            msg = SDMsg.Join(SDMsg.CANTJOINZONELEVEL, z.level, z.name);
+            _statusToTest = "NotEnoughLevel";
+        }
+        else
+        {
+            msg = SDMsg.Join(SDMsg.CANTJOINZONEVIP, StringUtils.FormatMoney(z.vipToJoin), z.name);
+            _statusToTest = "NotEnoughVip";
+        }
 
+        if (zone == GameConfig.IdRoomVuongPhu)
+        {
+            if (userModel.gVO.coin < z.coinToJoin && userModel.gVO.vipScore < z.vipToJoin)
+            {
+                if (gameModel.IsNormalPlayer())
+                {
+                    msg = SDMsg.Join(SDMsg.CANTJOINZONE, StringUtils.FormatMoney(z.coinToJoin),
+                        StringUtils.FormatMoney(z.vipToJoin), z.name);
+                    _statusToTest = "NotEnoughVuongPhu";
+                }
+                else
+                {
+                    msg = SDMsg.CANTJOINZONEREVIEW;
+                    _statusToTest = "Review";
+                }
+            }
+        }
+
+        BasicPopup.Open("Thông Báo",
+            msg);
+        return false;
+    }
+    
     private enum BaseJoin
     {
         CHECK_JOIN = 0,
