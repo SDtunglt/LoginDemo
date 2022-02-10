@@ -68,7 +68,6 @@ public class PopupId
     public const string ReportPopup = "ReportPopup";
     public const string ShopPopup = "ShopPopup";
     public const string WalletPopup = "WalletPopup";
-    public const string WalletPopup_2 = "WalletPopup";
     public const string PayCardPopup = "PayCardPopup";
     public const string ThiDinhWaitingUserPanel = "ThiDinhWaitingUserPanel";
     public const string TongKetPanel = "TongKetPanel";
