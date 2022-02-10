@@ -26,7 +26,8 @@ public class GameConfig : MonoBehaviour
     public static int NormalZoneCount = 6;
     public static ZoneInfo[] ZoneCfg;
     public static int[][] ZOneStake;
-    public static List<string> arraayGroupSubscribe = new List<string>();
+    public static List<VuongConfigVO> VuongCfg = new List<VuongConfigVO>();
+    public static List<string> arrayGroupSubscribe = new List<string>();
 
     public const string VAR_SITCOUNT = "c";
     public const string VAR_STAKE = "k";
@@ -38,4 +39,10 @@ public class GameConfig : MonoBehaviour
     public const string VAR_GAME_MODE = "m";
     public const string VAR_COIN = "c";
     public const string VAR_IP = "i";
+    public const string VAR_IS_NUOI_GA = "@";
+
+    public static bool IsTourZoneId(int z)
+    {
+        return z == IdRoomThiHuong || z == IdRoomThiHoi || z == IdRoomThiDinh;
+    }
 }

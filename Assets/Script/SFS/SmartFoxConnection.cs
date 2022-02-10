@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sfs2X.Util;
 using UnityEngine;
+using DG.Tweening;
 
 public class SmartFoxConnection : MonoBehaviour
 {
@@ -101,6 +102,12 @@ public class SmartFoxConnection : MonoBehaviour
         StartConnectionTimeout(TIME_CONNECT);
     }
 
+    private void UnSubcribeGroup(string groupId)
+    {
+        GameConfig.arrayGroupSubscribe.Remove(groupId);
+        sfs.Send(new UnsubscribeRoomGroupRequest(groupId));
+    }   
+
     private void InitSmartFox()
     {
         sfs = new SmartFox();
@@ -112,6 +119,16 @@ public class SmartFoxConnection : MonoBehaviour
 
         sfs.AddEventListener(SFSEvent.LOGIN,OnLogin);
         sfs.AddEventListener(SFSEvent.LOGIN_ERROR,OnLoginError);
+
+        sfs.AddEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitedRoom);
+        sfs.AddEventListener(SFSEvent.ROOM_GROUP_SUBSCRIBE, RoomGroupSubcribed);
+        sfs.AddEventListener(SFSEvent.ROOM_GROUP_SUBSCRIBE_ERROR,RoomGroupSubcribedError);
+        sfs.AddEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE, OnRoomGroupUnsubcribed);
+        sfs.AddEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE_ERROR, OnRoomGroupUnsubCribedError);
+        sfs.AddEventListener(SFSEvent.ROOM_REMOVE,OnRoomRemove);
+        sfs.AddEventListener(SFSEvent.ROOM_JOIN_ERROR, OnRoomError);
+        sfs.AddEventListener(SFSEvent.ROOM_CREATION_ERROR, OnRoomError);
+        sfs.AddEventListener(SFSEvent.ROOM_JOIN, OnRoomJoined);
 
         sfs.AddEventListener(SFSEvent.USER_VARIABLES_UPDATE,OnUserVariableUpdate);
     }
@@ -193,6 +210,132 @@ public class SmartFoxConnection : MonoBehaviour
     private void OnLoginError(BaseEvent evt)
     {
         if (sfs.IsConnected) sfs.Disconnect();
+    }
+
+    private void OnUserExitedRoom(BaseEvent evt)
+    {
+        var user = (User) evt.Params["user"];
+        if(!user.IsItMe)
+        {
+            return;
+        }
+
+        var room = (Room) evt.Params["room"];
+
+        if(!room.IsGame)
+        {
+            var arr = room.GroupId.Split('_');
+            var zoneId = int.Parse(arr[0]);
+            if(zoneId == GameConfig.IdRoomVuongPhu && GameConfig.arrayGroupSubscribe.Count > 0)
+            {
+                foreach (var groupId in GameConfig.arrayGroupSubscribe.ToArray())
+                {
+                    
+                }
+
+                GameConfig.arrayGroupSubscribe = new List<string>();
+            }
+            else
+            {
+                UnSubcribeGroup(room.GroupId);
+            }
+        }
+
+        if( screenManager.joinVO != null)
+            screenManager.ApplyChangeScene();
+        else if (lastJoinedRoom == null)
+        {
+            screenManager.joinVO = new NormalJoinVO(-1);
+            screenManager.ApplyChangeScene();
+        }
+    }
+
+    private void RoomGroupSubcribed(BaseEvent evt)
+    {
+        var groupId = (string) evt.Params["groupId"];
+
+        var groupData = groupId.Split('_');
+        var z = int.Parse(groupData[0]);
+        var r = groupData[1];
+        if(z == GameConfig.IdRoomVuongPhu)
+        {
+            GameConfig.arrayGroupSubscribe.Add(r);
+        }
+
+        var rooms = (List<Room>) evt.Params["newRooms"];
+        StartCoroutine(RoomGroupSub(rooms));
+    }
+
+    private static IEnumerator RoomGroupSub(List<Room> rooms)
+    {
+        yield return new WaitUntil(() => ScreenManager.Instance.IsOnScreen(ScreenManager.ROOM));
+        BoardInfoModel.Instance.UpdateBoardInfoByGroup(rooms);
+    }
+
+    private static void RoomGroupSubcribedError(BaseEvent evt)
+    {
+        var error = (string) evt.Params["erroMessage"];
+    }
+
+    private void OnRoomGroupUnsubcribed(BaseEvent evt)
+    {
+        var groupId = (string) evt.Params["groupId"];
+    }
+
+    private static void OnRoomGroupUnsubCribedError(BaseEvent evt)
+    {
+        var error = (string) evt.Params["errorMessage"];
+    }
+
+    private void OnRoomRemove(BaseEvent evt)
+    {
+        if(!screenManager.inRoom) return;
+        var room = (Room) evt.Params["room"];
+        if(room.IsGame) BoardInfoModel.Instance.ResetBoardInfo(room);
+    }
+
+    private void OnRoomError(BaseEvent evt)
+    {
+        screenManager.CancelJoin();
+        var msgError = (string) evt.Params["errorMessage"];
+        Debug.Log(msgError);
+    }
+
+    private void OnRoomJoined(BaseEvent evt)
+    {
+        var room = (Room) evt.Params["room"];
+
+        if(room.IsGame && screenManager.isJoining)
+        {
+            var vo = GamePlayInfo.fromBoardName(room.Name);
+            screenManager.ApplyJoin(vo.z, vo.r, vo.b);
+            return;
+        }
+
+        if(!room.IsGame)
+        {
+            var groupData = room.GroupId.Split('_');
+            var z = int.Parse(groupData[0]);
+            if(z == GameConfig.IdRoomVuongPhu && GameConfig.arrayGroupSubscribe.Count == 0)
+            {
+                subscribeRoomGroup(z + "_" + GameConfig.NgoaiDienGroupId);
+                DOVirtual.DelayedCall(0.5f, () => subscribeRoomGroup(z + "_" + GameConfig.NoiDienGroupId));
+            }
+            else
+            {
+                subscribeRoomGroup(room.GroupId);
+            }
+        }
+        if (screenManager.joinVO != null)
+        {
+            screenManager.ApplyChangeScene();
+        }
+    }
+    
+    private void subscribeRoomGroup(string groupId)
+    {
+        // SDLogger.Log("subscribe room group groupId: " + groupId);
+        sfs.Send(new SubscribeRoomGroupRequest(groupId));
     }
 
     private void StopConnectionTimeout()
