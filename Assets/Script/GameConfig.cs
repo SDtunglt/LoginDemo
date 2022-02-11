@@ -41,6 +41,11 @@ public class GameConfig : MonoBehaviour
     public const string VAR_IP = "i";
     public const string VAR_IS_NUOI_GA = "@";
 
+    public static List<int> MODS = new List<int>()
+    {
+        1, 2, 12, 19, 20, 21, 22, 28, 37, 30452, 74186, 211560, 525502, 647246, 2661484, 10, 4460959, 4060719, 1985,4844018, 8
+    };
+
     public static bool IsTourZoneId(int z)
     {
         return z == IdRoomThiHuong || z == IdRoomThiHoi || z == IdRoomThiDinh;

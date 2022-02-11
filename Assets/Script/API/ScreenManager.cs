@@ -22,8 +22,9 @@ public class ScreenManager : MonoBehaviour
 
     private Action screenAction = () => { };
     private string currentScreen;
+    private const int MAX_KICKED_TIME = 120;
 
-    
+    private Dictionary<string, long> kickedRooms = new Dictionary<string, long>();
     public static ScreenManager Instance
     {
         get{
@@ -250,6 +251,20 @@ public class ScreenManager : MonoBehaviour
         if(joinVO is NormalJoinVO) ChangeScene(joinVO as NormalJoinVO);
     }
 
+    public void JoinBoard(int board_, int room_, string password = null)
+    {
+        // FirebaseAnalyticsExtension.Instance.GoToBoard();
+        if (board_ == currentVO.board) return;
+        if (room_ != -1) currentVO.room = room_;
+        if (!IsCanJoinKickedRoom(zone, room_, board_))
+        {
+            Debug.Log("Bạn vừa bị đá ra khỏi bàn này. Sau 2 phút mới có thể vào lại bàn này!");
+            return;
+        }
+
+        CheckConnToJoin(new NormalJoinVO(currentVO.zone, currentVO.room, board_, password));
+    }
+
     private void ChangeScene(NormalJoinVO vo)
     {
         var oldScene = currentVO;
@@ -330,6 +345,26 @@ public class ScreenManager : MonoBehaviour
         BasicPopup.Open("Thông Báo",
             msg);
         return false;
+    }
+
+    public bool IsCanJoinKickedRoom(int z, int r, int b)
+    {
+        var v = $"{z}_{r}_{b}";
+        if (kickedRooms.ContainsKey(v))
+        {
+            if (kickedRooms[v] + MAX_KICKED_TIME < DateTime.Now.TotalSeconds())
+            {
+                kickedRooms.Remove(v);
+                LocalStorageUtils.SaveKickedRoom(kickedRooms);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
     
     private enum BaseJoin
