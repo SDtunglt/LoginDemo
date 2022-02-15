@@ -14,9 +14,11 @@ public class WalletPopup : UIPopup
     {
         PaymentData.ForceGetPayData(null, null, () =>
         {
+            Debug.LogError("Load Shop Dataaa Complete");
             //LoadingEffect.CloseLast();
             ViewCreator.OpenPopup(PopupId.WalletPopup , view =>
             {
+                 Debug.LogError("Load View Complete");
                 var shop = view.Cast<WalletPopup>();
                 // shop.myIAPManager.SetupView(data);
                 shop.myIAPManager.SetupView(PaymentData.PayWalletData);
@@ -28,6 +30,20 @@ public class WalletPopup : UIPopup
                 }
                 shop.OpenView();
             });
+        });
+    }
+
+    public void ShowWallet(){
+         PaymentData.ForceGetPayData(null, null, () =>
+        {
+                // shop.myIAPManager.SetupView(data);
+                myIAPManager.SetupView(PaymentData.PayWalletData);
+                // if (ScreenManager.Instance.IsOnScreen(ScreenManager.GAMEPLAY))
+                // {
+                //     MenuGroupController.ShowImmediate("LobbyScene");
+                // }
+                // OpenView();
+                gameObject.SetActive(true);
         });
     }
 

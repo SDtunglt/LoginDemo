@@ -5,6 +5,7 @@ using System.Text;
 using DG.Tweening;
 using Newtonsoft.Json;
 using UnityEngine;
+using Sirenix.OdinInspector;
     
 public class ScreenManager : MonoBehaviour 
 {
@@ -15,6 +16,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private List<ScreenDefine> screens;
     [SerializeField] private int z, r;
 
+    [Button]
     public void JoinRoom()
     {
         if(!isJoining) CheckConnToJoin(new NormalJoinVO(z,r));
@@ -28,7 +30,7 @@ public class ScreenManager : MonoBehaviour
     public static ScreenManager Instance
     {
         get{
-            if(!instance) return instance;
+            if(instance != null) return instance;
             instance = FindObjectOfType<ScreenManager>();
             DontDestroyOnLoad(instance);
             

@@ -20,6 +20,7 @@ public class UserGameVO
     }
 
     private int _level;
+    public int giftCount;
     private int _debt;
     private const uint UpgradeTime = 1392192000;
 

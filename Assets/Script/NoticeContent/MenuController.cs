@@ -46,7 +46,7 @@ public class MenuController: MonoBehaviour
     private void ChangeMenuState()
     {
         moveTween?.Kill();
-        // moveTween = moveRect.DOAnchorPosX(isShow ? hiddenPos : showPos, timeMove);
+        moveTween = moveRect.DOAnchorPosX(isShow ? hiddenPos : showPos, timeMove);
         isShow = !isShow;
     }
 

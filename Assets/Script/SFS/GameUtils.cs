@@ -168,7 +168,7 @@ public static class GameUtils
     private static void OpenShopReview()
     {
         //LoadingEffect.Open();
-        WalletPopup.Open();
+        //WalletPopup.Open();
     }
 
     

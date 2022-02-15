@@ -131,6 +131,42 @@ public class SmartFoxConnection : MonoBehaviour
         sfs.AddEventListener(SFSEvent.ROOM_JOIN, OnRoomJoined);
 
         sfs.AddEventListener(SFSEvent.USER_VARIABLES_UPDATE,OnUserVariableUpdate);
+         sfs.AddEventListener(SFSEvent.EXTENSION_RESPONSE,OnExtensionResponse);
+    }
+
+    private void OnExtensionResponse(BaseEvent evt)
+    {
+           var cmd = (string) evt.Params["cmd"];
+        SFSObject data = (SFSObject) evt.Params["params"];
+        // SDLogger.Log("SFS: " + cmd);
+
+        switch (cmd)
+        {
+            case ExtCmd.InitGame:
+                HandleGetZoneConfig(data);
+                break;
+        }
+    }
+
+     private void HandleGetZoneConfig(ISFSObject data)
+    {
+        // SDLogger.Log("HandleGetZoneConfig");
+        // Debug.Log("Init Data: ");
+        // Debug.Log(data.ToJson());
+        var initConfig = new InitGameInExt(data);
+        GameConfig.ZoneCfg = initConfig.arrZone;
+        GameConfig.ZoneStake = initConfig.arrStake;
+
+        // SDLogger.Log(initConfig.arrZone);
+
+        userModel.gVO.coin = initConfig.coin;
+        userModel.gVO.exp = initConfig.exp;
+        userModel.gVO.giftCount = initConfig.giftCount;
+        userModel.gVO.vipScore = initConfig.vipScore;
+
+        Signals.Get<UpdatePlayerInfoSignal>().Dispatch();
+        // GameData.SetRoundPlayForMe(initConfig.roundPlay);
+        screenManager.GoToScreen(ScreenManager.LOBBY);
     }
 
     private void OnUserVariableUpdate(BaseEvent evt)
@@ -200,6 +236,54 @@ public class SmartFoxConnection : MonoBehaviour
     {
         var reason = (string) evt.Params["reason"];
         Debug.Log($"Connection was lost, reason is: {reason}");
+        if(reason == ClientDisconnectionReason.KICK)
+        {
+            screenManager.GoToScreen(ScreenManager.LOGIN);
+        }
+        else if(reason == ClientDisconnectionReason.BAN)
+        {
+            Debug.Log($"Thông báo {SDMsg.BANED}");
+            screenManager.GoToScreen(ScreenManager.LOGIN);
+        }
+        else if (reason == ClientDisconnectionReason.MANUAL)
+        {
+            //Manual disconnection is usually ignored
+        }
+        else if (reason == ClientDisconnectionReason.UNKNOWN)
+        {
+            Signals.Get<LostConnectionSignal>().Dispatch();
+            Signals.Get<CancelJoinTourSignal>().Dispatch();
+            Debug.Log($"Thông Báo {SDMsg.DISLOGIN} ");
+            OnReConnect();
+        }
+        else if (reason == ClientDisconnectionReason.IDLE)
+        {
+            Signals.Get<LostConnectionSignal>().Dispatch();
+            if (screenManager.inBoard)
+            {
+                Debug.Log($"Thông Báo {SDMsg.FORCEDIS} ");
+                OnReConnect();
+            }
+            else if (screenManager.inRoom)
+            {
+                Debug.Log($"Thông Báo {SDMsg.DISINROOM} ");
+                OnReConnect();
+            }
+            else
+            {
+                Debug.Log($"Thông Báo {SDMsg.DISLOGIN} ");
+                OnReConnect();
+            }
+        }
+    }
+
+    private void OnReConnect()
+    {
+        Debug.Log("On Reconnect");
+        if (isConnected) Disconnect();
+
+        GameConfig.LOGIN_COUNT = 0;
+        screenManager.GoToScreen(ScreenManager.LOGIN);
     }
 
     private void OnLogin(BaseEvent evt)

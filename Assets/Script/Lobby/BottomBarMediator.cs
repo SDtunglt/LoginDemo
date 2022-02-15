@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class BottomBarMediator : MonoBehaviour
 {
     private UserModel userModel = UserModel.Instance;
-    [SerializeField] public GameObject WalletPopup;
+    [SerializeField] public WalletPopup WalletPopup;
     [SerializeField] private GameObject giftCodeBtn_2;
     [SerializeField] private Button findBoardBtn, gifttCodeBtn, rankBtn, shopBtn;
     private DataPayReceived dataPayMod;
@@ -37,14 +37,14 @@ public class BottomBarMediator : MonoBehaviour
 
     public void OnShopClick()
     {
-        GameUtils.OnShopClick();
-        WalletPopup.SetActive(true);
+        // GameUtils.OnShopClick();
+        WalletPopup.ShowWallet();
         LobbyScreen.Instance.lobbyMediator.btnBack.Show();
     }
 
     public void OnCloseShop()
     {
-        WalletPopup.SetActive(false);
+        WalletPopup.gameObject.Hide();
     }
 
     private void OnEnable()
@@ -70,10 +70,9 @@ public class BottomBarMediator : MonoBehaviour
         Signals.Get<LogoutSignal>().RemoveListener(OnLogout);
     }
 
-        private void OnLogout()
+    private void OnLogout()
     {
         dataPayMod = null;
         dataPayWallet = null;
     }
-
 }

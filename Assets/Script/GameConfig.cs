@@ -25,7 +25,7 @@ public class GameConfig : MonoBehaviour
     
     public static int NormalZoneCount = 6;
     public static ZoneInfo[] ZoneCfg;
-    public static int[][] ZOneStake;
+    public static int[][] ZoneStake;
     public static List<VuongConfigVO> VuongCfg = new List<VuongConfigVO>();
     public static List<string> arrayGroupSubscribe = new List<string>();
 
