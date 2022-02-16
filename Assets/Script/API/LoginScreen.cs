@@ -5,10 +5,8 @@ public class LoginScreen : MonoBehaviour
     public static LoginScreen Instance
     {
         get{
-            if(!instance)
-            {
-                instance = FindObjectOfType<LoginScreen>();
-            }
+            if(instance != null) return instance;
+            instance = FindObjectOfType<LoginScreen>();
             return instance;
         }
     }

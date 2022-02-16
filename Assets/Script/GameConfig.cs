@@ -10,6 +10,7 @@ public class GameConfig : MonoBehaviour
     public const string ZONE_DEFAULT = "sfsak";
     public static int PORT = 9012;
     public static string HOST = "";
+    public static int COIN_RATIO = 20;
     public static int MaxBoardInRoom = 30;
     
     public const int IdRoomChanh = 4;
@@ -25,7 +26,7 @@ public class GameConfig : MonoBehaviour
     
     public static int NormalZoneCount = 6;
     public static ZoneInfo[] ZoneCfg;
-    public static int[][] ZOneStake;
+    public static int[][] ZoneStake;
     public static List<VuongConfigVO> VuongCfg = new List<VuongConfigVO>();
     public static List<string> arrayGroupSubscribe = new List<string>();
 
@@ -40,6 +41,11 @@ public class GameConfig : MonoBehaviour
     public const string VAR_COIN = "c";
     public const string VAR_IP = "i";
     public const string VAR_IS_NUOI_GA = "@";
+
+    public static List<int> MODS = new List<int>()
+    {
+        1, 2, 12, 19, 20, 21, 22, 28, 37, 30452, 74186, 211560, 525502, 647246, 2661484, 10, 4460959, 4060719, 1985,4844018, 8
+    };
 
     public static bool IsTourZoneId(int z)
     {

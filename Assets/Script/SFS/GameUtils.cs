@@ -14,12 +14,12 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using Random = System.Random;
 
-public class GameUtils
+public static class GameUtils
 {
     public static bool IsCTDCActive ;
     public static bool IsUI2 { get; private set; }
     private const string SaveCard = "card_saved";
-    private ShopMediator shopMediator;
+
     private static readonly List<int> ALPHA_CHAR_CODES = new List<int>()
         { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70 };
     public static bool IsWeb()
@@ -80,7 +80,17 @@ public class GameUtils
         return base_ava_url + "game/avatar?id=" + uid + "&type=" + t + "&date=" + date;
     }
 
+    public static long TotalSeconds(this DateTime date)
+    {
+        DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        TimeSpan diff = date.ToUniversalTime() - origin;
+        return (long)(diff.TotalSeconds);
+    }
 
+    public static bool IsMod(int uid)
+    {
+        return uid > 0 && GameConfig.MODS.IndexOf(uid) != -1;
+    }
     
     public static string GetDeviceId()
     {
@@ -158,7 +168,7 @@ public class GameUtils
     private static void OpenShopReview()
     {
         //LoadingEffect.Open();
-        WalletPopup.Open();
+        //WalletPopup.Open();
     }
 
     
