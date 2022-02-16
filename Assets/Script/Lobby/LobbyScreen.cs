@@ -6,10 +6,8 @@ public class LobbyScreen : MonoBehaviour
     {
         get
         {
-            if(!instance)
-            {
-                instance = FindObjectOfType<LobbyScreen>();
-            }
+            if(instance != null) return instance;
+            instance = FindObjectOfType<LobbyScreen>();
             return instance;
         }
     }

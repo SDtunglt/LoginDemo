@@ -27,6 +27,8 @@ public class SmartFoxConnection : MonoBehaviour
     private UserModel userModel = UserModel.Instance;
     private ScreenManager screenManager;
 
+    private Tween renewSessionTween;
+
     public static bool IsConnected
     {
         get
@@ -54,6 +56,11 @@ public class SmartFoxConnection : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        screenManager = ScreenManager.Instance;
+    }
+
 
     private void Update()
     {
@@ -65,6 +72,7 @@ public class SmartFoxConnection : MonoBehaviour
         if(sfs == null) return;
         if(sfs.IsConnected) sfs.Disconnect();
         sfs = null;
+        renewSessionTween?.Kill();
     }
 
     private void OnApplicationQuit()
@@ -145,7 +153,24 @@ public class SmartFoxConnection : MonoBehaviour
             case ExtCmd.InitGame:
                 HandleGetZoneConfig(data);
                 break;
+            case ExtCmd.NotResume:
+                HandleNotResume(data);
+                break;
+            default:
+                Signals.Get<GamePlayExtensionResponseSignal>().Dispatch(cmd, data);
+                break;
         }
+    }
+
+    private void HandleNotResume(ISFSObject data)
+    {
+        var z = screenManager.joinVO.zone;
+        if(screenManager.CheckJoinZone(z))
+        {
+            FindBoardMediator.OpenPopup(z);
+        }
+
+        screenManager.CancelJoin();
     }
 
      private void HandleGetZoneConfig(ISFSObject data)

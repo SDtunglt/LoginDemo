@@ -83,6 +83,31 @@ public static class API
     {
         Send("POST", "pay-card-bb2", onSuccess, onFailure, data);
     }
+    public static void UploadAvatar(Action<JObject> onSuccess, Action onFailure, string filename,
+    byte[] bytes)
+    {
+        HttpUtils.UploadFileToServer(GlobalDataManager.Ins.API_URL + "upload-avatar", filename, "picture", "image/jpeg", bytes, onSuccess, onFailure);
+    }
+    public static void UpdateBorderAvatar(Action<JObject> onSuccess, Action<string> onFailure, string jsonData)
+    {
+        Send("POST", "update-frame-avatar", onSuccess, onFailure, jsonData);
+    }
+
+    public static void GetBorderById(Action<JObject> onSuccess, Action<string> onFailure, string jsonData)
+    {
+        Send("POST", "get-frame-avatar-by-uids", onSuccess, onFailure, jsonData);
+    }
+
+    public static void DeleteAvatar(Action<JObject> successCb, Action<string> failCb)
+    {
+        Send("POST", "delete-avatar", successCb, failCb);
+    }
+
+    public static void GetFeatureConfig(Action<JObject> onSuccess, Action<string> onFailure, string jsonData) {
+    Send("POST", "config", onSuccess, onFailure, jsonData);
+    }
+
+    
 
     public static void GetInitData()
     {

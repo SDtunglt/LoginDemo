@@ -13,7 +13,7 @@ public class ItemRoomSelect : MonoBehaviour
     public Sprite[] statusSprites;
     private int room;
     private Action<int> callback;
-    private const float maxValue = 1200;
+    private const float maxValue = 120;
 
     public void UpdateView(int r, string nameRoom, Action<int> cb, ToggleGroup group, bool isLast = false, int z = -1)
     {

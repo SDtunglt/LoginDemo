@@ -10,6 +10,7 @@ public class GameConfig : MonoBehaviour
     public const string ZONE_DEFAULT = "sfsak";
     public static int PORT = 9012;
     public static string HOST = "";
+    public static int COIN_RATIO = 20;
     public static int MaxBoardInRoom = 30;
     
     public const int IdRoomChanh = 4;

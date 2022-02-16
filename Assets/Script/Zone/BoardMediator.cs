@@ -52,12 +52,16 @@ public class BoardMediator : MonoBehaviour
             playerImages[i].SetNativeSize();
         }
 
-            txtName.text = (boardId + 1).ToString();
-            txtStake.text = StringUtils.FormatMoneyK(info.stake);
-            imgIsKhoa.sprite = info.isLocked ? iconLocks[1] : iconLocks[0];
-            imgIsKhoa.SetNativeSize();
-            imgIsGa.sprite = info.ga ? iconGas[1] : iconGas[0];
-            imgIsGa.SetNativeSize();
+        txtName.text = (boardId + 1).ToString();
+        txtStake.text = StringUtils.FormatMoney(info.stake);
+        imgIsKhoa.sprite = info.isLocked ? iconLocks[1] : iconLocks[0];
+        imgIsKhoa.SetNativeSize();
+        txtName.text = (boardId + 1).ToString();
+        txtStake.text = StringUtils.FormatMoney(info.stake);
+        imgIsKhoa.sprite = info.isLocked ? iconLocks[1] : iconLocks[0];
+        imgIsKhoa.SetNativeSize();
+        imgIsGa.sprite = info.ga ? iconGas[1] : iconGas[0];
+        imgIsGa.SetNativeSize();
 
             if (txtStatus != null)
             {

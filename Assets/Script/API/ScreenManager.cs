@@ -43,8 +43,6 @@ public class ScreenManager : MonoBehaviour
     public RoomResume roomResume;
     public NormalJoinVO currentVO = new NormalJoinVO(-1,-1,-1);
     private static ScreenManager instance;
-    public LoginScreen login;
-    public LobbyScreen lobby;
     private SmartFoxConnection sfs;
     private UserModel userModel = UserModel.Instance;
     private GameModel gameModel = GameModel.Instance;
@@ -70,12 +68,12 @@ public class ScreenManager : MonoBehaviour
         {
             this.ShowFlashWithCallBack(() =>
             {
-                LoadScreenAsync(screen, () => { onScreenChangeDefine.Invoke(screen);});
+                LoadScreenAsync(screen, () => { onScreenChangeDefine?.Invoke(screen);});
             });
         }
         else
         {
-            LoadScreenAsync(screen, () => {onScreenChangeDefine.Invoke(screen);});
+            LoadScreenAsync(screen, () => {onScreenChangeDefine?.Invoke(screen);});
         }
     }
 
@@ -99,7 +97,7 @@ public class ScreenManager : MonoBehaviour
             }
         }
 
-        onComplete.Invoke();
+        onComplete?.Invoke();
         yield return new WaitForEndOfFrame();
         currentScreen = screen;
     }
