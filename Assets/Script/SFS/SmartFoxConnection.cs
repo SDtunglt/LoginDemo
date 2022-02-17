@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using Sfs2X.Util;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Purchasing;
 
 public class SmartFoxConnection : MonoBehaviour
 {
@@ -94,6 +95,11 @@ public class SmartFoxConnection : MonoBehaviour
         sfs.Send(new ExtensionRequest(cmd, vo == null ? new SFSObject() : vo.toSFSObject()));
     }
 
+    public void SendExt(string cmd, SFSObject vo)
+    {
+        sfs.Send(new ExtensionRequest(cmd,vo ?? new SFSObject()));
+    }
+
     public void Connect()
     {
         ConfigData cfg = new ConfigData();
@@ -156,10 +162,31 @@ public class SmartFoxConnection : MonoBehaviour
             case ExtCmd.NotResume:
                 HandleNotResume(data);
                 break;
+            case ExtCmd.UserCount:
+                HandleUserCount(data);
+                break;
             default:
                 Signals.Get<GamePlayExtensionResponseSignal>().Dispatch(cmd, data);
                 break;
         }
+    }
+
+    private void HandleUserCount(ISFSObject data)
+    {
+        var vo = new UserCountVO();
+        vo.fromSFSObject(data);
+
+        var arrAll = vo.uc.Split((';')).ToList();
+        var result = new List<List<string>>();
+        for (var i = 0; i < arrAll.Count; i++)
+        {
+            var arr = arrAll[i].Split((',')).ToList();
+            result.Add(arr);
+        }
+
+        if (result.Count == 0) return;
+        UserCountsModel.Instance.uCounts = result;
+
     }
 
     private void HandleNotResume(ISFSObject data)
@@ -215,6 +242,11 @@ public class SmartFoxConnection : MonoBehaviour
         sfs.RemoveEventListener(e, listener);
     }
 
+    public Room GetLastJoinedRoom()
+    {
+        return sfs.LastJoinedRoom;
+    }
+
     public void Send(IRequest obj)
     {
         sfs.Send(obj);
@@ -254,7 +286,15 @@ public class SmartFoxConnection : MonoBehaviour
 
     private void OnConnectionRetry(BaseEvent evt)
     {
-
+        if (evt.Type == SFSEvent.CONNECTION_RETRY)
+        {
+            if (screenManager.isJoining)
+                screenManager.CancelJoin();
+        }
+        else
+        {
+            Signals.Get<CancelJoinTourSignal>().Dispatch();
+        }
     }
 
     private void OnConnectionLost(BaseEvent evt)
@@ -440,6 +480,12 @@ public class SmartFoxConnection : MonoBehaviour
             screenManager.ApplyChangeScene();
         }
     }
+
+    public bool IsJoinedInRoom(string name)
+    {
+        return mySelf.IsJoinedInRoom(sfs.GetRoomByName(name));
+    }
+    
     
     private void subscribeRoomGroup(string groupId)
     {
