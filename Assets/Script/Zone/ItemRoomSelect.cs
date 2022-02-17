@@ -31,7 +31,7 @@ public class ItemRoomSelect : MonoBehaviour
         txtNameRoom.text = nameRoom;
         txtUserCount.text = userCount.ToString();
 
-        var x = Mathf.Clamp01(userCount/ maxValue);
+        var x = Mathf.Clamp01(userCount / maxValue);
         statusIm.fillAmount = x;
         statusIm.sprite = x < 0.3f ? statusSprites[0] : x < 0.6f ? statusSprites[1] : statusSprites[2];
         border.SetActive(!isLast);
