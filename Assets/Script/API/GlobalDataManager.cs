@@ -127,6 +127,7 @@ public class GlobalDataManager : MonoBehaviour
     public bool isFullScreenMode = false;
 
     public Sprite[] backgrounds;
+    public Sprite[] nenAvatars;
     public Sprite[] backCard;
     public Color[] backCardTxtColors;
     public KhungAvatarData khungAvatarData;

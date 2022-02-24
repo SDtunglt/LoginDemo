@@ -63,6 +63,12 @@ public static class API
     {
         Send("GET", "list-frame-avatar?v=2_15_2", onSuccess, onFailure);
     }
+
+    public static void GetRelay(string matchId, Action<JObject> onSuccess, Action<string> onFailure)
+    {
+        Send("GET", $"replay/{matchId}", onSuccess, onFailure);
+    }
+    
     public static void GetTotalReceived(Action<JObject> onSuccess, Action<string> onFailure, int hinhThuc, string nhaMang, string changeDisplay)
     {
         var data = hinhThuc + "," + nhaMang + "," + changeDisplay;
