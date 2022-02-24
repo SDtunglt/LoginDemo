@@ -74,7 +74,7 @@ public class UserDetailMediator : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnGetUserDetailError(string error)
+    private static void OnGetUserDetailError(string error)
     {
         Debug.Log("Thông báo không thể kết nối được với hệ thống vui lòng thử lại");  
     }
@@ -121,5 +121,18 @@ public class UserDetailMediator : MonoBehaviour
 
         //txtBigU.text = diem;
         //txtBigWin.text = bao;
+    }
+
+    public static void Open(string uid, double ip)
+    {
+        // LoadingEffect.Open();
+        API.GetUserDetail(data =>
+        {
+            ViewCreator.OpenPopup(PopupId.UserDetailPopup, view =>
+            {
+                var p = view.Cast<UserDetailMediator>();
+                p.OnGetUserDetailSuccess(uid, ip, data);
+            });
+        }, OnGetUserDetailError, uid, GameConfig.APP_ID.ToString());
     }
 }

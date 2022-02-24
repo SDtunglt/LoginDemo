@@ -106,6 +106,15 @@ public static class GameUtils
         return s;
     }
 
+    public static List<int> byteArrayToIntArr(ByteArray barr)
+    {
+        var ret = new List<int>();
+        barr.Position = 0; //Note!! khi dùng ByteArray phải chú ý điều này
+        while (barr.BytesAvailable > 0)
+            ret.Add(barr.ReadByte());
+        return ret;
+    }
+    
     public static string CreateID()
     {
         var uid = new int[36];
@@ -171,7 +180,62 @@ public static class GameUtils
         //WalletPopup.Open();
     }
 
-    
+    public static void SetCardSaved(List<int> listCard)
+    {
+        if (listCard.Count <= 0)
+        {
+            PlayerPrefs.DeleteKey(SaveCard);
+            return;
+        }
+
+        var data = string.Join(",", listCard);
+        SetLocalStorage(SaveCard, data);
+    }
+
+
+    private static void SetLocalStorage(string id, string value)
+    {
+        PlayerPrefs.SetString(id, value);
+    }
+
+    public static ByteArray intArrToByteArray(List<int> arr)
+    {
+        var ret = new ByteArray();
+        foreach (var a in arr)
+        {
+            ret.WriteByte((byte)a);
+        }
+
+        return ret;
+    }
+
+    public static List<int> GetCardSaved()
+    {
+        var data = GetLocalStorage(SaveCard);
+        if (string.IsNullOrEmpty(data)) return new List<int>();
+
+        var listData = data.Split(',').ToList();
+        var listCard = new List<int>();
+        for (var i = 0; i < listData.Count; i++)
+        {
+            if (string.IsNullOrEmpty(listData[i])) continue;
+            listCard.Add(int.Parse(listData[i]));
+        }
+
+        return listCard;
+    }
+
+    private static string GetLocalStorage(string key)
+    {
+        var value = PlayerPrefs.GetString(key);
+        return value;
+    }
+
+    public static bool ListIntContains(List<int> a, List<int> b)
+    {
+        return a.Count >= b.Count && b.All(x => a.IndexOf(x) != -1);
+    }
+
     private static void OpenShopNormal()
     {
         

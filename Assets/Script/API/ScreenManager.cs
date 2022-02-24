@@ -150,6 +150,29 @@ public class ScreenManager : MonoBehaviour
         CheckConnToJoin(vo);
     }
 
+    public GameObject replayScreen;
+
+    public void OpenReplayScreen(string matchId)
+    {
+        if (IsOnScreen(GAMEPLAY))
+        {
+            //Toast.Show("Không thể xem lại ván chơi trong phòng chơi!");
+            return;
+        }
+
+        API.GetRelay(matchId, o =>
+        {
+            ReplayModel.ReceiveReplay(o);
+            currentVO = new NormalJoinVO(ReplayModel.zone, ReplayModel.room, ReplayModel.board);
+            replayScreen.Show();
+        }, s => { SDLogger.LogError(s); });
+    }
+
+    public void CloseReplayScreen()
+    {
+        replayScreen.Hide();
+    }
+
     
 
     public void JoinRoom(int _zone,int _room, bool isQuickJoin = false)

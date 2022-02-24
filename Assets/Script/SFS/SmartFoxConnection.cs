@@ -297,6 +297,27 @@ public class SmartFoxConnection : MonoBehaviour
         }
     }
 
+    public void GetFreeCoin()
+    {
+        if (userModel.gVO.giftCount > 0)
+        {
+            SendExt(ExtCmd.FreeCoin);
+            oldMyCoin = userModel.gVO.coin;
+        }
+        else
+        {
+            BasicPopup.Open(
+                "Thông Báo",
+                "Bạn đã nhận hết quà miễn phí trong ngày.",
+                "Đồng ý");
+        }
+    }
+
+    public void SendNoticeMsg(string msg)
+    {
+        sfs.Send(new PublicMessageRequest(msg));
+    }
+
     private void OnConnectionLost(BaseEvent evt)
     {
         var reason = (string) evt.Params["reason"];
